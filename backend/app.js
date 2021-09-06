@@ -22,6 +22,8 @@ app.use(cors());
 app.use(xss());
 app.use(rateLimit({ windowMs: 60 * 1000, max: 100 }));
 
+// use this to move all api request to /api/*
+// app.use('/api', routes);
 app.use(routes);
 
 app.get('/', (req, res) => {

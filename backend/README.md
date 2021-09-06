@@ -1,6 +1,6 @@
 # Biometric Auth Backend
 
-This is a complete guide to create this backend from scratch. Learn some basics about Node.js, Express, and PostgreSQL if you never touched them before.
+This is a complete guide to create this backend from scratch.
 
 ## Installation 
 
@@ -218,10 +218,10 @@ require('dotenv').config();
 module.exports = {
   "development": {
     "username": process.env.DB_USERNAME,
-    "password": process.envDB_PASSWORD,
+    "password": process.env.DB_PASSWORD,
     "database": process.env.DB_NAME,
     "host": process.env.DB_HOST,
-    "dialect": process.env.DB_DIALECT,
+    "dialect": process.env.DB_DIALECT
   },
   "test": {
     "use_env_variable": "DATABASE_URL"
@@ -836,13 +836,13 @@ $ npm run dev
 ```
 http://localhost:3000/posts
 http://localhost:3000/posts/1
-http://localhost:3000/posts?q=abc
-http://localhost:3000/posts?q=def
+http://localhost:3000/posts?q=universe
+http://localhost:3000/posts?q=learn
 ```
 
 You can see the server returns json response according to your request.
 
-For other non-GET endpoints, you can test them using Postman. But POST endpoint won't work now since we need authentication to get userId of the post author.
+For other non-GET endpoints, you can test them using Postman. But POST endpoint won't work for now, since we need authentication to get userId of the post author.
 
 ## Profile API 
 
@@ -2040,21 +2040,21 @@ For the final blow, let's test our updated `refreshToken`. If it all goes well, 
 
 ## Final Steps 
 
-It's all finished. Now we can use this backend in our Flutter app. But first, we need to make it public using [ngrok](https://ngrok.com/).
+It's all finished. Now we are ready to use this backend with our Flutter app. But first, we have to make it public using [ngrok](https://ngrok.com/).
 
-Run the server.
+Run server.
 
 ```bash
 $ npm run dev
 ```
 
-Make it public with ngrok.
+Make the server public with ngrok.
 
 ```bash
 $ ngrok http 3000
 ```
 
-Use the randomly generated ngrok URL in your terminal as base URL in your Flutter app.
+Use the randomly generated ngrok URL as base URL in your Flutter app.
 
 ```
 ngrok by @inconshreveable
