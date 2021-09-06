@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const { secret } = require('../config/auth');
 
 const { StatusCodes } = require('http-status-codes');
-const { BAD_REQUEST } = StatusCodes;
+const { BAD_REQUEST, UNAUTHORIZED } = StatusCodes;
 
 exports.verifyToken = (req, res, next) => {
   const token = req.headers['x-access-token'];
@@ -21,12 +21,12 @@ exports.verifyToken = (req, res, next) => {
     } 
     else {
       if (error && error instanceof TokenExpiredError) {
-        return res.status(BAD_REQUEST).json({
+        return res.status(UNAUTHORIZED).json({
           message: 'Access token was expired'
         });
       }
 
-      return res.status(BAD_REQUEST).json({
+      return res.status(UNAUTHORIZED).json({
         message: 'Invalid Token'
       });
     }
