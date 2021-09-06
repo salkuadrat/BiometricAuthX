@@ -4,8 +4,8 @@ This is a complete guide to create this backend from scratch.
 
 ## Installation 
 
-[Download and Install Node.js](https://nodejs.org/en/download/)
-[Download and Install PostgreSQL](https://www.postgresql.org/download/)
+[Download and Install Node.js](https://nodejs.org/en/download/)\
+[Download and Install PostgreSQL](https://www.postgresql.org/download/)\
 [Download and Install Database Tool DBeaver (Optional)](https://dbeaver.io/)
 
 Check if node.js has been installed by running this command.
