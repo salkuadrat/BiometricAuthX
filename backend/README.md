@@ -53,21 +53,21 @@ $ npm i --save-dev nodemon sequelize-cli
 ```
 Here is the details of every dependencies we installed.
 
-[express](https://www.npmjs.com/package/express): Node.js web framework to create our REST APIs.
-[dotenv](https://www.npmjs.com/package/dotenv): module to read environment variables from .env into process.env.
-[bcryptjs](https://www.npmjs.com/package/bcryptjs): module to hash passwords.
-[cors](https://www.npmjs.com/package/cors): module to enable CORS.
-[express-rate-limit](https://www.npmjs.com/package/express-rate-limit): module to limit the number of requests per IP address.
-[helmet](https://www.npmjs.com/package/helmet): module to secure APIs.
-[http-status-codes](https://www.npmjs.com/package/http-status-codes): module to define HTTP status codes.
-[jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken): module to generate JWT tokens.
-[morgan](https://www.npmjs.com/package/morgan): module to log requests.
-[pg](https://www.npmjs.com/package/pg): module to connect with PostgreSQL.
-[pg-hstore](https://www.npmjs.com/package/pg-hstore): module to parse PostgreSQL HSTORE type.
-[sequelize](https://www.npmjs.com/package/sequelize): module to organize data models from PostgreSQL.
-[xss-clean](https://www.npmjs.com/package/xss-clean): module to prevent XSS attacks.
+[express](https://www.npmjs.com/package/express): Node.js web framework to create our REST APIs.\
+[dotenv](https://www.npmjs.com/package/dotenv): module to read environment variables from .env into process.env.\
+[bcryptjs](https://www.npmjs.com/package/bcryptjs): module to hash passwords.\
+[cors](https://www.npmjs.com/package/cors): module to enable CORS.\
+[express-rate-limit](https://www.npmjs.com/package/express-rate-limit): module to limit the number of requests per IP address.\
+[helmet](https://www.npmjs.com/package/helmet): module to secure APIs.\
+[http-status-codes](https://www.npmjs.com/package/http-status-codes): module to define HTTP status codes.\
+[jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken): module to generate JWT tokens.\
+[morgan](https://www.npmjs.com/package/morgan): module to log requests.\
+[pg](https://www.npmjs.com/package/pg): module to connect with PostgreSQL.\
+[pg-hstore](https://www.npmjs.com/package/pg-hstore): module to parse PostgreSQL HSTORE type.\
+[sequelize](https://www.npmjs.com/package/sequelize): module to organize data models from PostgreSQL.\
+[xss-clean](https://www.npmjs.com/package/xss-clean): module to prevent XSS attacks.\
 
-[nodemon](https://www.npmjs.com/package/nodemon): module that will automatically restart the server as we change our codes.
+[nodemon](https://www.npmjs.com/package/nodemon): module that will automatically restart the server as we change our codes.\
 [sequelize-cli](https://www.npmjs.com/package/sequelize-cli): module to generate database models from command line.
 
 ## Boilerplate
