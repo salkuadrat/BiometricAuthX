@@ -65,7 +65,7 @@ Here is the details of every dependencies we installed.
 [pg](https://www.npmjs.com/package/pg): module to connect with PostgreSQL.\
 [pg-hstore](https://www.npmjs.com/package/pg-hstore): module to parse PostgreSQL HSTORE type.\
 [sequelize](https://www.npmjs.com/package/sequelize): module to organize data models from PostgreSQL.\
-[xss-clean](https://www.npmjs.com/package/xss-clean): module to prevent XSS attacks.\
+[xss-clean](https://www.npmjs.com/package/xss-clean): module to prevent XSS attacks.
 
 [nodemon](https://www.npmjs.com/package/nodemon): module that will automatically restart the server as we change our codes.\
 [sequelize-cli](https://www.npmjs.com/package/sequelize-cli): module to generate database models from command line.
