@@ -81,6 +81,7 @@ Edit file `package.json` to describe our project and prepare npm `"scripts"` to 
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "dev": "nodemon -r dotenv/config index.js"
   },
   "keywords": [],
