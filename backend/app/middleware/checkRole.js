@@ -1,12 +1,12 @@
 const { Post } = require('../models');
 const { StatusCodes } = require('http-status-codes');
-const { UNAUTHORIZED, INTERNAL_SERVER_ERROR } = StatusCodes;
+const { FORBIDDEN, INTERNAL_SERVER_ERROR } = StatusCodes;
 
 exports.isAdmin = async (req, res, next) => {
   if (req.username === 'admin') {
     next();
   } else {
-    return res.status(UNAUTHORIZED).json({
+    return res.status(FORBIDDEN).json({
       message: 'Not authorized. Access admin only.'
     });
   }
@@ -21,7 +21,7 @@ exports.isAuthor = async (req, res, next) => {
     if (post && post.userId === req.userId) {
       next();
     } else {
-      return res.status(UNAUTHORIZED).json({
+      return res.status(FORBIDDEN).json({
         message: 'Not authorized.'
       });
     }
