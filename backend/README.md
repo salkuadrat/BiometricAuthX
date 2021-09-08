@@ -1107,8 +1107,8 @@ const {
 
 router.post('/register', register);
 router.post('/login', login);
-router.post('/biometric', refreshBiometric);
-router.post('/token', refreshToken);
+router.post('/refreshbiometric', refreshBiometric);
+router.post('/refreshtoken', refreshToken);
 
 module.exports = router;
 ```
