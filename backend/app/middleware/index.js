@@ -1,9 +1,5 @@
-const checkRegister = require('./checkRegister');
-const checkAuth = require('./checkAuth');
-const checkRole = require('./checkRole');
-
 module.exports = { 
-  checkRegister, 
-  checkAuth,
-  checkRole 
+  checkRegister: require('./checkRegister'), 
+  checkAuth: require('./checkAuth'),
+  checkRole: require('./checkRole') 
 };

@@ -550,9 +550,9 @@ exports.deleteAllPost = async (req, res) => {
 And prepare `app/controllers/index.js`
 
 ```js
-const postController = require('./postController');
-
-module.exports = { postController };
+module.exports = { 
+  postController: require('./postController') 
+};
 ```
 
 And add routes `app/routes/index.js`
@@ -561,16 +561,16 @@ And add routes `app/routes/index.js`
 const express = require('express');
 const router = express.Router();
 
-const { postController } = require('../controllers');
-
-const {
-  searchPost,
-  findPost,
-  createPost,
-  updatePost,
-  deletePost,
-  deleteAllPost
-} = postController;
+const { 
+  postController: {
+    searchPost,
+    findPost,
+    createPost,
+    updatePost,
+    deletePost,
+    deleteAllPost
+  }
+} = require('../controllers');
 
 router.use((req, res, next) => {
   res.header(
@@ -595,14 +595,15 @@ Now we can start handling all functionality inside `postController.js`
 Let's start with `searchPost`
 
 ```js
-const { StatusCodes } = require('http-status-codes');
 const { Sequelize, Post } = require('../models');
 
-const {
-  BAD_REQUEST,
-  NO_CONTENT,
-  INTERNAL_SERVER_ERROR
-} = StatusCodes;
+const { 
+  StatusCodes: {
+    BAD_REQUEST,
+    NO_CONTENT,
+    INTERNAL_SERVER_ERROR
+  }
+} = require('http-status-codes');
 
 const iLike = Sequelize.Op.iLike;
 
@@ -884,8 +885,12 @@ For this API we need to create file `app/controllers/userController.js`
 ```js
 const { Post, User } = require('../models');
 
-const { StatusCodes } = require('http-status-codes');
-const { NO_CONTENT, INTERNAL_SERVER_ERROR } = StatusCodes;
+const { 
+  StatusCodes: {
+    NO_CONTENT,
+    INTERNAL_SERVER_ERROR
+  }
+} = require('http-status-codes');
 
 exports.profile = async (req, res) => {
   const username = req.params.username || req.username;
@@ -925,12 +930,9 @@ exports.profile = async (req, res) => {
 And then update `app/controllers/index.js`
 
 ```js
-const postController = require('./postController');
-const userController = require('./userController');
-
 module.exports = { 
-  postController, 
-  userController 
+  postController: require('./postController'),
+  userController: require('./userController')
 };
 ```
 
@@ -940,8 +942,14 @@ And apply the controller to `app/routes/index.js`
 const express = require('express');
 const router = express.Router();
 
-const { postController, userController } = require('../controllers');
-const { profile } = userController;
+const { 
+  postController: {
+    ...
+  }, 
+  userController: { 
+    profile 
+  } 
+} = require('../controllers');
 
 ...
 
@@ -1048,8 +1056,12 @@ const jwt = require('jsonwebtoken');
 const { secret } = require('../config/auth');
 const { User } = require('../models');
 
-const { StatusCodes } = require('http-status-codes');
-const { BAD_REQUEST, INTERNAL_SERVER_ERROR } = StatusCodes;
+const { 
+  StatusCodes: {
+    BAD_REQUEST,
+    INTERNAL_SERVER_ERROR
+  }
+} = require('http-status-codes');
 
 exports.register = async (req, res) => {
   
@@ -1071,14 +1083,10 @@ exports.refreshToken = async (req, res) => {
 And edit `app/controllers/index.js`
 
 ```js
-const postController = require('./postController');
-const userController = require('./userController');
-const authController = require('./authController');
-
 module.exports = { 
-  postController, 
-  userController,
-  authController
+  postController: require('./postController'), 
+  userController: require('./userController'),
+  authController: require('./authController')
 };
 ```
 
@@ -1089,19 +1097,19 @@ const express = require('express');
 const router = express.Router();
 
 const { 
-  postController,
-  userController,
-  authController 
+  postController: {
+    ...
+  },
+  userController: {
+    ...
+  },
+  authController: { 
+    register, 
+    login,
+    refreshBiometric,
+    refreshToken 
+  } 
 } = require('../controllers');
-
-const { profile } = userController;
-
-const { 
-  register, 
-  login,
-  refreshBiometric,
-  refreshToken 
-} = authController;
 
 ...
 
@@ -1270,8 +1278,13 @@ For that, we need to create middleware `app/middleware/checkRegister.js` that im
 
 ```js
 const { User } = require('../models');
-const { StatusCodes } = require('http-status-codes');
-const { BAD_REQUEST, INTERNAL_SERVER_ERROR } = StatusCodes;
+
+const { 
+  StatusCodes: {
+    BAD_REQUEST,
+    INTERNAL_SERVER_ERROR
+  }
+} = require('http-status-codes');
 
 exports.checkRegisterParams = (req, res, next) => {
   const { 
@@ -1294,7 +1307,7 @@ exports.checkDuplicateUsername = async (req, res, next) => {
 
   try {
     const user = await User.findOne({ 
-      where : { username: username } 
+      where : { username } 
     });
 
     if (user) {
@@ -1316,9 +1329,9 @@ exports.checkDuplicateUsername = async (req, res, next) => {
 And create file `app/middleware/index.js`
 
 ```js
-const checkRegister = require('./checkRegister');
-
-module.exports = { checkRegister };
+module.exports = { 
+  checkRegister: require('./checkRegister') 
+};
 ```
 
 And then apply it to route `/register` inside `app/routes/index.js`
@@ -1327,8 +1340,12 @@ And then apply it to route `/register` inside `app/routes/index.js`
 const express = require('express');
 const router = express.Router();
 
-const { checkRegister } = require('../middleware');
-const { checkRegisterParams, checkDuplicateUsername } = checkRegister;
+const { 
+  checkRegister: {
+    checkRegisterParams,
+    checkDuplicateUsername
+  }
+} = require('../middleware');
 
 ...
 
@@ -1352,8 +1369,12 @@ For that, we need to create file `app/middleware/checkAuth.js`
 const jwt = require('jsonwebtoken');
 const { secret } = require('../config/auth');
 
-const { StatusCodes } = require('http-status-codes');
-const { BAD_REQUEST, UNAUTHORIZED } = StatusCodes;
+const { 
+  StatusCodes: {
+    BAD_REQUEST,
+    UNAUTHORIZED
+  }
+} = require('http-status-codes');
 
 exports.verifyToken = (req, res, next) => {
   const token = req.headers['x-access-token'];
@@ -1371,7 +1392,7 @@ exports.verifyToken = (req, res, next) => {
       next();
     } 
     else {
-      if (error && error instanceof TokenExpiredError) {
+      if (error && error instanceof jwt.TokenExpiredError) {
         return res.status(UNAUTHORIZED).json({
           message: 'Access token was expired'
         });
@@ -1388,10 +1409,10 @@ exports.verifyToken = (req, res, next) => {
 And update file `app/middleware/index.js`
 
 ```js
-const checkRegister = require('./checkRegister');
-const checkAuth = require('./checkAuth');
-
-module.exports = { checkRegister, checkAuth };
+module.exports = { 
+  checkRegister: require('./checkRegister'), 
+  checkAuth: require('./checkAuth') 
+};
 ```
 
 And then apply the middleware to `app/routes/index.js`
@@ -1400,33 +1421,35 @@ And then apply the middleware to `app/routes/index.js`
 const express = require('express');
 const router = express.Router();
 
-const { checkRegister, checkAuth } = require('../middleware');
-const { checkRegisterParams, checkDuplicateUsername } = checkRegister;
-const { verifyToken } = checkAuth;
+const { 
+  checkRegister: {
+    checkRegisterParams,
+    checkDuplicateUsername
+  }, 
+  checkAuth: {
+    verifyToken
+  }
+} = require('../middleware');
 
 const { 
-  postController,
-  userController,
-  authController 
+  postController: {
+    searchPost,
+    findPost,
+    createPost,
+    updatePost,
+    deletePost,
+    deleteAllPost
+  },
+  userController: {
+    profile
+  },
+  authController: {
+    register, 
+    login,
+    refreshBiometric,
+    refreshToken
+  } 
 } = require('../controllers');
-
-const { profile } = userController;
-
-const { 
-  register, 
-  login,
-  refreshBiometric,
-  refreshToken 
-} = authController;
-
-const {
-  searchPost,
-  findPost,
-  createPost,
-  updatePost,
-  deletePost,
-  deleteAllPost
-} = postController;
 
 router.use((req, res, next) => {
   res.header(
@@ -1447,11 +1470,10 @@ router.delete('/posts', [ verifyToken ], deleteAllPost);
 router.get('/profile', [ verifyToken ], profile);
 router.get('/profile/:username', profile);
 
-router.post(
-  '/register', 
-  [ checkRegisterParams, checkDuplicateUsername ], 
-  register
-);
+router.post('/register', [ 
+  checkRegisterParams, 
+  checkDuplicateUsername 
+], register);
 
 router.post('/login', login);
 router.post('/refreshbiometric', refreshBiometric);
@@ -1476,8 +1498,13 @@ For that we need to create `app/middleware/checkRole.js` implementing `isAdmin` 
 
 ```js
 const { Post } = require('../models');
-const { StatusCodes } = require('http-status-codes');
-const { FORBIDDEN, INTERNAL_SERVER_ERROR } = StatusCodes;
+
+const { 
+  StatusCodes: {
+    FORBIDDEN,
+    INTERNAL_SERVER_ERROR
+  }
+} = require('http-status-codes');
 
 exports.isAdmin = async (req, res, next) => {
   // For now, we stick with a simple username check
@@ -1516,14 +1543,10 @@ exports.isAuthor = async (req, res, next) => {
 And then edit `app/middleware/index.js`
 
 ```js
-const checkRegister = require('./checkRegister');
-const checkAuth = require('./checkAuth');
-const checkRole = require('./checkRole');
-
 module.exports = { 
-  checkRegister, 
-  checkAuth,
-  checkRole 
+  checkRegister: require('./checkRegister'), 
+  checkAuth: require('./checkAuth'),
+  checkRole: require('./checkRole')
 };
 ```
 
@@ -1534,38 +1557,38 @@ const express = require('express');
 const router = express.Router();
 
 const { 
-  checkRegister, 
-  checkAuth,
-  checkRole 
+  checkRegister: {
+    checkRegisterParams,
+    checkDuplicateUsername
+  }, 
+  checkAuth: {
+    verifyToken
+  },
+  checkRole: {
+    isAdmin,
+    isAuthor
+  } 
 } = require('../middleware');
 
-const { checkRegisterParams, checkDuplicateUsername } = checkRegister;
-const { verifyToken } = checkAuth;
-const { isAdmin, isAuthor } =  checkRole;
-
 const { 
-  postController,
-  userController,
-  authController 
+  postController: {
+    searchPost,
+    findPost,
+    createPost,
+    updatePost,
+    deletePost,
+    deleteAllPost
+  },
+  userController: {
+    profile
+  },
+  authController: {
+    register, 
+    login,
+    refreshBiometric,
+    refreshToken
+  }
 } = require('../controllers');
-
-const { profile } = userController;
-
-const { 
-  register, 
-  login,
-  refreshBiometric,
-  refreshToken 
-} = authController;
-
-const {
-  searchPost,
-  findPost,
-  createPost,
-  updatePost,
-  deletePost,
-  deleteAllPost
-} = postController;
 
 router.use((req, res, next) => {
   res.header(
@@ -1585,11 +1608,10 @@ router.delete('/posts', [ verifyToken, isAdmin ], deleteAllPost);
 router.get('/profile', [ verifyToken ], profile);
 router.get('/profile/:username', profile);
 
-router.post(
-  '/register', 
-  [ checkRegisterParams, checkDuplicateUsername ], 
-  register
-);
+router.post('/register', [ 
+  checkRegisterParams, 
+  checkDuplicateUsername 
+], register);
 
 router.post('/login', login);
 router.post('/refreshbiometric', refreshBiometric);
@@ -1959,8 +1981,13 @@ Now it's time to complete the `refreshToken` function in `app/controllers/authCo
 ```js
 ...
 
-const { StatusCodes } = require('http-status-codes');
-const { FORBIDDEN, BAD_REQUEST, INTERNAL_SERVER_ERROR } = StatusCodes;
+const { 
+  StatusCodes: {
+    BAD_REQUEST,
+    FORBIDDEN,
+    INTERNAL_SERVER_ERROR
+  }
+} = require('http-status-codes');
 
 ...
 

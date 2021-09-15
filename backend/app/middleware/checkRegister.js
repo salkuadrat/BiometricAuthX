@@ -1,6 +1,11 @@
 const { User } = require('../models');
-const { StatusCodes } = require('http-status-codes');
-const { BAD_REQUEST, INTERNAL_SERVER_ERROR } = StatusCodes;
+
+const { 
+  StatusCodes: { 
+    BAD_REQUEST, 
+    INTERNAL_SERVER_ERROR 
+  }
+} = require('http-status-codes');
 
 exports.checkRegisterParams = (req, res, next) => {
   const { 
@@ -23,7 +28,7 @@ exports.checkDuplicateUsername = async (req, res, next) => {
 
   try {
     const user = await User.findOne({ 
-      where : { username: username } 
+      where : { username } 
     });
 
     if (user) {

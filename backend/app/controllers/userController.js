@@ -1,7 +1,11 @@
 const { Post, User } = require('../models');
 
-const { StatusCodes } = require('http-status-codes');
-const { NO_CONTENT, INTERNAL_SERVER_ERROR } = StatusCodes;
+const { 
+  StatusCodes: { 
+    NO_CONTENT, 
+    INTERNAL_SERVER_ERROR 
+  }
+} = require('http-status-codes');
 
 exports.profile = async (req, res) => {
   const username = req.params.username || req.username;

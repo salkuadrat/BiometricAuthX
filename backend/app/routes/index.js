@@ -2,38 +2,38 @@ const express = require('express');
 const router = express.Router();
 
 const { 
-  checkRegister, 
-  checkAuth,
-  checkRole 
+  checkRegister: { 
+    checkRegisterParams, 
+    checkDuplicateUsername 
+  }, 
+  checkAuth: { 
+    verifyToken 
+  }, 
+  checkRole: { 
+    isAdmin, 
+    isAuthor 
+  } 
 } = require('../middleware');
 
-const { checkRegisterParams, checkDuplicateUsername } = checkRegister;
-const { verifyToken } = checkAuth;
-const { isAdmin, isAuthor } =  checkRole;
-
 const { 
-  postController,
-  userController,
-  authController 
+  authController: { 
+    register, 
+    login,
+    refreshBiometric,
+    refreshToken 
+  },
+  userController: { 
+    profile 
+  },
+  postController: {
+    searchPost,
+    findPost,
+    createPost,
+    updatePost,
+    deletePost,
+    deleteAllPost
+  }
 } = require('../controllers');
-
-const { profile } = userController;
-
-const { 
-  register, 
-  login,
-  refreshBiometric,
-  refreshToken 
-} = authController;
-
-const {
-  searchPost,
-  findPost,
-  createPost,
-  updatePost,
-  deletePost,
-  deleteAllPost
-} = postController;
 
 router.use((req, res, next) => {
   res.header(
@@ -53,11 +53,10 @@ router.delete('/posts', [ verifyToken, isAdmin ], deleteAllPost);
 router.get('/profile', [ verifyToken ], profile);
 router.get('/profile/:username', profile);
 
-router.post(
-  '/register', 
-  [ checkRegisterParams, checkDuplicateUsername ], 
-  register
-);
+router.post('/register', [ 
+  checkRegisterParams, 
+  checkDuplicateUsername 
+], register);
 
 router.post('/login', login);
 router.post('/refreshbiometric', [ verifyToken ], refreshBiometric);

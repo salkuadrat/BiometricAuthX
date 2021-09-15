@@ -1,6 +1,11 @@
 const { Post } = require('../models');
-const { StatusCodes } = require('http-status-codes');
-const { FORBIDDEN, INTERNAL_SERVER_ERROR } = StatusCodes;
+
+const { 
+  StatusCodes: { 
+    FORBIDDEN, 
+    INTERNAL_SERVER_ERROR 
+  }
+} = require('http-status-codes');
 
 exports.isAdmin = async (req, res, next) => {
   if (req.username === 'admin') {

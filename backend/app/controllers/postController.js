@@ -1,11 +1,12 @@
-const { StatusCodes } = require('http-status-codes');
 const { Sequelize, Post } = require('../models');
 
-const {
-  BAD_REQUEST,
-  NO_CONTENT,
-  INTERNAL_SERVER_ERROR
-} = StatusCodes;
+const { 
+  StatusCodes: { 
+    BAD_REQUEST, 
+    NO_CONTENT, 
+    INTERNAL_SERVER_ERROR 
+  }
+} = require('http-status-codes');
 
 const iLike = Sequelize.Op.iLike;
 

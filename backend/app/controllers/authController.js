@@ -4,8 +4,13 @@ const jwt = require('jsonwebtoken');
 const { secret } = require('../config/auth');
 const { User } = require('../models');
 
-const { StatusCodes } = require('http-status-codes');
-const { FORBIDDEN, BAD_REQUEST, INTERNAL_SERVER_ERROR } = StatusCodes;
+const { 
+  StatusCodes: { 
+    BAD_REQUEST, 
+    FORBIDDEN, 
+    INTERNAL_SERVER_ERROR 
+  }
+} = require('http-status-codes');
 
 exports.register = async (req, res) => {
   const { 
@@ -71,7 +76,7 @@ exports.login = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(INTERNAL_SERVER_ERROR).json({
+      return res.status(BAD_REQUEST).json({
         message: message
       });
     }
